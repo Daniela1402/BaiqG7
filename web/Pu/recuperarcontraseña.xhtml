@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <meta charset="utf-8"/>
@@ -40,10 +41,12 @@
                             <center><img class="align-content" src="../resources/img/logo (1).svg" alt="" height="100" width="100"/></center>
                             <hr/>
                             <div class="form-group">
-                                <label>Correo electronico</label>
-                                <input type="Correo electronico" class="form-control" placeholder="Email"/>
-                            </div>
-                            <button type="submit" class="btn btn-danger btn-flat m-b-15">Enviar</button>
+                                    <label>Dirección de correo electrónico</label>
+                                    <h:inputText required="true"  requiredMessage="Ingrese un correo" id="regCorreo" value="#{registroUsuarioRequest.usReg.correoElectronico}" class="form-control" html5:placeholder="Correo electrónico"/>
+                                    <h:message style="color: red" for="regCorreo"></h:message>
+                                </div>
+
+                            <h:commandButton class="btn btn-danger btn-flat m-b-15" value="Enviar" />
                         </h:form>
                     </div>
                 </div>

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
@@ -13,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "califica_servicio")
@@ -41,14 +42,18 @@ public class CalificaServicio implements Serializable {
     @Size(max = 150)
     @Column(name = "Obeservaciones")
     private String obeservaciones;
-    @Column(name = "Id_detalleOrdenPago")
-    private Integer iddetalleOrdenPago;
-    @Column(name = "Id_OrdenServicio")
-    private Integer idOrdenServicio;
-    @Column(name = "Id_Admin")
-    private Integer idAdmin;
-    @Column(name = "Id_Encuesta")
-    private Integer idEncuesta;
+    @JoinColumn(name = "Id_detalleOrdenPago", referencedColumnName = "Id_detalleOrdenPago")
+    @ManyToOne
+    private DetalleOrdenPago iddetalleOrdenPago;
+    @JoinColumn(name = "Id_OrdenServicio", referencedColumnName = "Id_OrdenServicio")
+    @ManyToOne
+    private OrdenServicio idOrdenServicio;
+    @JoinColumn(name = "Id_Admin", referencedColumnName = "Id_Admin")
+    @ManyToOne
+    private Administrador idAdmin;
+    @JoinColumn(name = "Id_Encuesta", referencedColumnName = "Id_Encuesta")
+    @ManyToOne
+    private Encuesta idEncuesta;
 
     public CalificaServicio() {
     }
@@ -81,35 +86,35 @@ public class CalificaServicio implements Serializable {
         this.obeservaciones = obeservaciones;
     }
 
-    public Integer getIddetalleOrdenPago() {
+    public DetalleOrdenPago getIddetalleOrdenPago() {
         return iddetalleOrdenPago;
     }
 
-    public void setIddetalleOrdenPago(Integer iddetalleOrdenPago) {
+    public void setIddetalleOrdenPago(DetalleOrdenPago iddetalleOrdenPago) {
         this.iddetalleOrdenPago = iddetalleOrdenPago;
     }
 
-    public Integer getIdOrdenServicio() {
+    public OrdenServicio getIdOrdenServicio() {
         return idOrdenServicio;
     }
 
-    public void setIdOrdenServicio(Integer idOrdenServicio) {
+    public void setIdOrdenServicio(OrdenServicio idOrdenServicio) {
         this.idOrdenServicio = idOrdenServicio;
     }
 
-    public Integer getIdAdmin() {
+    public Administrador getIdAdmin() {
         return idAdmin;
     }
 
-    public void setIdAdmin(Integer idAdmin) {
+    public void setIdAdmin(Administrador idAdmin) {
         this.idAdmin = idAdmin;
     }
 
-    public Integer getIdEncuesta() {
+    public Encuesta getIdEncuesta() {
         return idEncuesta;
     }
 
-    public void setIdEncuesta(Integer idEncuesta) {
+    public void setIdEncuesta(Encuesta idEncuesta) {
         this.idEncuesta = idEncuesta;
     }
 
@@ -137,5 +142,5 @@ public class CalificaServicio implements Serializable {
     public String toString() {
         return "baiq.proyectoG7.entity.CalificaServicio[ idCalificaServicio=" + idCalificaServicio + " ]";
     }
-
+    
 }

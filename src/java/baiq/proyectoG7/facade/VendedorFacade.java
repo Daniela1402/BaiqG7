@@ -5,6 +5,7 @@
  */
 package baiq.proyectoG7.facade;
 
+import baiq.proyectoG7.entity.Vendedor;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -20,6 +21,9 @@ public class VendedorFacade {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    public VendedorFacade() {
+        super(Vendedor.class);
     }
     
 }

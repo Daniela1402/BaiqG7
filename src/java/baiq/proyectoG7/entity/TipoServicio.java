@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,14 +15,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "tipo_servicio")
@@ -41,6 +44,10 @@ public class TipoServicio implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "servicio")
     private String servicio;
+    @OneToMany(mappedBy = "idTipoServicio")
+    private Collection<OrdenServicio> ordenServicioCollection;
+    @OneToMany(mappedBy = "idTipoServicio")
+    private Collection<Venta> ventaCollection;
 
     public TipoServicio() {
     }
@@ -68,6 +75,24 @@ public class TipoServicio implements Serializable {
 
     public void setServicio(String servicio) {
         this.servicio = servicio;
+    }
+
+    @XmlTransient
+    public Collection<OrdenServicio> getOrdenServicioCollection() {
+        return ordenServicioCollection;
+    }
+
+    public void setOrdenServicioCollection(Collection<OrdenServicio> ordenServicioCollection) {
+        this.ordenServicioCollection = ordenServicioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Venta> getVentaCollection() {
+        return ventaCollection;
+    }
+
+    public void setVentaCollection(Collection<Venta> ventaCollection) {
+        this.ventaCollection = ventaCollection;
     }
 
     @Override

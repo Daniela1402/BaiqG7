@@ -6,20 +6,26 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "vendedor")
@@ -30,17 +36,23 @@ public class Vendedor implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Id_Vendedor")
     private Integer idVendedor;
     @Size(max = 15)
     @Column(name = "Comosi\u00f3n_venta")
     private String comosiónventa;
-    @Column(name = "Id_usuario")
-    private Integer idusuario;
-    @Column(name = "Id_sucursal")
-    private Integer idsucursal;
+    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
+    @ManyToOne
+    private Usuario idusuario;
+    @JoinColumn(name = "Id_sucursal", referencedColumnName = "Id_sucursal")
+    @ManyToOne
+    private Sucursal idsucursal;
+    @OneToMany(mappedBy = "idVendedor")
+    private Collection<Venta> ventaCollection;
+    @OneToMany(mappedBy = "idvendedor")
+    private Collection<Fidelizacion> fidelizacionCollection;
 
     public Vendedor() {
     }
@@ -65,20 +77,38 @@ public class Vendedor implements Serializable {
         this.comosiónventa = comosiónventa;
     }
 
-    public Integer getIdusuario() {
+    public Usuario getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(Integer idusuario) {
+    public void setIdusuario(Usuario idusuario) {
         this.idusuario = idusuario;
     }
 
-    public Integer getIdsucursal() {
+    public Sucursal getIdsucursal() {
         return idsucursal;
     }
 
-    public void setIdsucursal(Integer idsucursal) {
+    public void setIdsucursal(Sucursal idsucursal) {
         this.idsucursal = idsucursal;
+    }
+
+    @XmlTransient
+    public Collection<Venta> getVentaCollection() {
+        return ventaCollection;
+    }
+
+    public void setVentaCollection(Collection<Venta> ventaCollection) {
+        this.ventaCollection = ventaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Fidelizacion> getFidelizacionCollection() {
+        return fidelizacionCollection;
+    }
+
+    public void setFidelizacionCollection(Collection<Fidelizacion> fidelizacionCollection) {
+        this.fidelizacionCollection = fidelizacionCollection;
     }
 
     @Override

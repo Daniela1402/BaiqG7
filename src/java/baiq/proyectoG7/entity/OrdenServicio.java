@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,17 +14,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "orden_servicio")
@@ -43,12 +48,6 @@ public class OrdenServicio implements Serializable {
     @Column(name = "FechaRegistro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
-    @Column(name = "Id_TipoServicio")
-    private Integer idTipoServicio;
-    @Column(name = "Id_soporte")
-    private Integer idsoporte;
-    @Column(name = "Id_cliente")
-    private Integer idcliente;
     @Size(max = 150)
     @Column(name = "ReporteCliente")
     private String reporteCliente;
@@ -71,6 +70,19 @@ public class OrdenServicio implements Serializable {
     private String iva;
     @Column(name = "TotalServicio")
     private Integer totalServicio;
+    @JoinColumn(name = "Id_TipoServicio", referencedColumnName = "Id_TipoServicio")
+    @ManyToOne
+    private TipoServicio idTipoServicio;
+    @JoinColumn(name = "Id_soporte", referencedColumnName = "Id_soporte")
+    @ManyToOne
+    private Soporte idsoporte;
+    @JoinColumn(name = "Id_cliente", referencedColumnName = "Id_cliente")
+    @ManyToOne
+    private Cliente idcliente;
+    @OneToMany(mappedBy = "idOrdenServicio")
+    private Collection<OrdenPago> ordenPagoCollection;
+    @OneToMany(mappedBy = "idOrdenServicio")
+    private Collection<CalificaServicio> calificaServicioCollection;
 
     public OrdenServicio() {
     }
@@ -101,30 +113,6 @@ public class OrdenServicio implements Serializable {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public Integer getIdTipoServicio() {
-        return idTipoServicio;
-    }
-
-    public void setIdTipoServicio(Integer idTipoServicio) {
-        this.idTipoServicio = idTipoServicio;
-    }
-
-    public Integer getIdsoporte() {
-        return idsoporte;
-    }
-
-    public void setIdsoporte(Integer idsoporte) {
-        this.idsoporte = idsoporte;
-    }
-
-    public Integer getIdcliente() {
-        return idcliente;
-    }
-
-    public void setIdcliente(Integer idcliente) {
-        this.idcliente = idcliente;
     }
 
     public String getReporteCliente() {
@@ -189,6 +177,48 @@ public class OrdenServicio implements Serializable {
 
     public void setTotalServicio(Integer totalServicio) {
         this.totalServicio = totalServicio;
+    }
+
+    public TipoServicio getIdTipoServicio() {
+        return idTipoServicio;
+    }
+
+    public void setIdTipoServicio(TipoServicio idTipoServicio) {
+        this.idTipoServicio = idTipoServicio;
+    }
+
+    public Soporte getIdsoporte() {
+        return idsoporte;
+    }
+
+    public void setIdsoporte(Soporte idsoporte) {
+        this.idsoporte = idsoporte;
+    }
+
+    public Cliente getIdcliente() {
+        return idcliente;
+    }
+
+    public void setIdcliente(Cliente idcliente) {
+        this.idcliente = idcliente;
+    }
+
+    @XmlTransient
+    public Collection<OrdenPago> getOrdenPagoCollection() {
+        return ordenPagoCollection;
+    }
+
+    public void setOrdenPagoCollection(Collection<OrdenPago> ordenPagoCollection) {
+        this.ordenPagoCollection = ordenPagoCollection;
+    }
+
+    @XmlTransient
+    public Collection<CalificaServicio> getCalificaServicioCollection() {
+        return calificaServicioCollection;
+    }
+
+    public void setCalificaServicioCollection(Collection<CalificaServicio> calificaServicioCollection) {
+        this.calificaServicioCollection = calificaServicioCollection;
     }
 
     @Override

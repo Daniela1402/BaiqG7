@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "proveedor")
@@ -47,6 +50,8 @@ public class Proveedor implements Serializable {
     @Size(max = 30)
     @Column(name = "Email")
     private String email;
+    @OneToMany(mappedBy = "idProveedor")
+    private Collection<TipoProducto> tipoProductoCollection;
 
     public Proveedor() {
     }
@@ -93,6 +98,15 @@ public class Proveedor implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @XmlTransient
+    public Collection<TipoProducto> getTipoProductoCollection() {
+        return tipoProductoCollection;
+    }
+
+    public void setTipoProductoCollection(Collection<TipoProducto> tipoProductoCollection) {
+        this.tipoProductoCollection = tipoProductoCollection;
     }
 
     @Override

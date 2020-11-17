@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,16 +14,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "orden_pago")
@@ -40,10 +45,14 @@ public class OrdenPago implements Serializable {
     @Column(name = "Fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Column(name = "Id_OrdenServicio")
-    private Integer idOrdenServicio;
-    @Column(name = "Id_venta")
-    private Integer idventa;
+    @JoinColumn(name = "Id_OrdenServicio", referencedColumnName = "Id_OrdenServicio")
+    @ManyToOne
+    private OrdenServicio idOrdenServicio;
+    @JoinColumn(name = "Id_venta", referencedColumnName = "Id_venta")
+    @ManyToOne
+    private Venta idventa;
+    @OneToMany(mappedBy = "idOrdenPago")
+    private Collection<DetalleOrdenPago> detalleOrdenPagoCollection;
 
     public OrdenPago() {
     }
@@ -68,20 +77,29 @@ public class OrdenPago implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getIdOrdenServicio() {
+    public OrdenServicio getIdOrdenServicio() {
         return idOrdenServicio;
     }
 
-    public void setIdOrdenServicio(Integer idOrdenServicio) {
+    public void setIdOrdenServicio(OrdenServicio idOrdenServicio) {
         this.idOrdenServicio = idOrdenServicio;
     }
 
-    public Integer getIdventa() {
+    public Venta getIdventa() {
         return idventa;
     }
 
-    public void setIdventa(Integer idventa) {
+    public void setIdventa(Venta idventa) {
         this.idventa = idventa;
+    }
+
+    @XmlTransient
+    public Collection<DetalleOrdenPago> getDetalleOrdenPagoCollection() {
+        return detalleOrdenPagoCollection;
+    }
+
+    public void setDetalleOrdenPagoCollection(Collection<DetalleOrdenPago> detalleOrdenPagoCollection) {
+        this.detalleOrdenPagoCollection = detalleOrdenPagoCollection;
     }
 
     @Override

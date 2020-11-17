@@ -9,11 +9,9 @@ import baiq.proyectoG7.entity.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-/**
- *
- * @author Daniela
- */
+
 @Stateless
 public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFacadeLocal {
 
@@ -31,7 +29,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
 
     @Override
     public Usuario recuperarClave(String correoRecuperar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+         try {
+            Query qt = em.createQuery("SELECT p FROM Usuario p where p.correo= :correoRecuperar");
+            qt.setParameter("correoRecuperar", correoRecuperar);
+            return (Usuario) qt.getSingleResult();
+        } catch (Exception e) {
+            return new Usuario();
+        }
     }
     
 }

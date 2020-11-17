@@ -6,22 +6,28 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "venta")
@@ -32,21 +38,27 @@ public class Venta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Id_venta")
     private Integer idventa;
     @Column(name = "FechaRegistro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
-    @Column(name = "Id_Vendedor")
-    private Integer idVendedor;
-    @Column(name = "Id_cliente")
-    private Integer idcliente;
-    @Column(name = "Id_Producto")
-    private Integer idProducto;
-    @Column(name = "Id_TipoServicio")
-    private Integer idTipoServicio;
+    @JoinColumn(name = "Id_Vendedor", referencedColumnName = "Id_Vendedor")
+    @ManyToOne
+    private Vendedor idVendedor;
+    @JoinColumn(name = "Id_cliente", referencedColumnName = "Id_cliente")
+    @ManyToOne
+    private Cliente idcliente;
+    @JoinColumn(name = "Id_Producto", referencedColumnName = "Id_Producto")
+    @ManyToOne
+    private Producto idProducto;
+    @JoinColumn(name = "Id_TipoServicio", referencedColumnName = "Id_TipoServicio")
+    @ManyToOne
+    private TipoServicio idTipoServicio;
+    @OneToMany(mappedBy = "idventa")
+    private Collection<OrdenPago> ordenPagoCollection;
 
     public Venta() {
     }
@@ -71,36 +83,45 @@ public class Venta implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Integer getIdVendedor() {
+    public Vendedor getIdVendedor() {
         return idVendedor;
     }
 
-    public void setIdVendedor(Integer idVendedor) {
+    public void setIdVendedor(Vendedor idVendedor) {
         this.idVendedor = idVendedor;
     }
 
-    public Integer getIdcliente() {
+    public Cliente getIdcliente() {
         return idcliente;
     }
 
-    public void setIdcliente(Integer idcliente) {
+    public void setIdcliente(Cliente idcliente) {
         this.idcliente = idcliente;
     }
 
-    public Integer getIdProducto() {
+    public Producto getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(Integer idProducto) {
+    public void setIdProducto(Producto idProducto) {
         this.idProducto = idProducto;
     }
 
-    public Integer getIdTipoServicio() {
+    public TipoServicio getIdTipoServicio() {
         return idTipoServicio;
     }
 
-    public void setIdTipoServicio(Integer idTipoServicio) {
+    public void setIdTipoServicio(TipoServicio idTipoServicio) {
         this.idTipoServicio = idTipoServicio;
+    }
+
+    @XmlTransient
+    public Collection<OrdenPago> getOrdenPagoCollection() {
+        return ordenPagoCollection;
+    }
+
+    public void setOrdenPagoCollection(Collection<OrdenPago> ordenPagoCollection) {
+        this.ordenPagoCollection = ordenPagoCollection;
     }
 
     @Override

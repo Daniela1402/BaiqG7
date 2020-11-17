@@ -6,20 +6,25 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "cliente")
@@ -34,10 +39,18 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_cliente")
     private Integer idcliente;
-    @Column(name = "Id_tarjeta_puntos")
-    private Integer idtarjetapuntos;
-    @Column(name = "Id_usuario")
-    private Integer idusuario;
+    @OneToMany(mappedBy = "idcliente")
+    private Collection<OrdenServicio> ordenServicioCollection;
+    @OneToMany(mappedBy = "idcliente")
+    private Collection<Venta> ventaCollection;
+    @OneToMany(mappedBy = "idcliente")
+    private Collection<Fidelizacion> fidelizacionCollection;
+    @JoinColumn(name = "Id_tarjeta_puntos", referencedColumnName = "Id_tarjeta_puntos")
+    @ManyToOne
+    private TarjetaPuntos idtarjetapuntos;
+    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
+    @ManyToOne
+    private Usuario idusuario;
 
     public Cliente() {
     }
@@ -54,19 +67,46 @@ public class Cliente implements Serializable {
         this.idcliente = idcliente;
     }
 
-    public Integer getIdtarjetapuntos() {
+    @XmlTransient
+    public Collection<OrdenServicio> getOrdenServicioCollection() {
+        return ordenServicioCollection;
+    }
+
+    public void setOrdenServicioCollection(Collection<OrdenServicio> ordenServicioCollection) {
+        this.ordenServicioCollection = ordenServicioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Venta> getVentaCollection() {
+        return ventaCollection;
+    }
+
+    public void setVentaCollection(Collection<Venta> ventaCollection) {
+        this.ventaCollection = ventaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Fidelizacion> getFidelizacionCollection() {
+        return fidelizacionCollection;
+    }
+
+    public void setFidelizacionCollection(Collection<Fidelizacion> fidelizacionCollection) {
+        this.fidelizacionCollection = fidelizacionCollection;
+    }
+
+    public TarjetaPuntos getIdtarjetapuntos() {
         return idtarjetapuntos;
     }
 
-    public void setIdtarjetapuntos(Integer idtarjetapuntos) {
+    public void setIdtarjetapuntos(TarjetaPuntos idtarjetapuntos) {
         this.idtarjetapuntos = idtarjetapuntos;
     }
 
-    public Integer getIdusuario() {
+    public Usuario getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(Integer idusuario) {
+    public void setIdusuario(Usuario idusuario) {
         this.idusuario = idusuario;
     }
 

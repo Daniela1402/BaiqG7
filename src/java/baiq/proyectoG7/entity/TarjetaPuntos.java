@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,16 +14,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "tarjeta_puntos")
@@ -42,8 +47,13 @@ public class TarjetaPuntos implements Serializable {
     private Date fechaExpedicion;
     @Column(name = "Puntos")
     private Integer puntos;
-    @Column(name = "Id_estado")
-    private Integer idestado;
+    @OneToMany(mappedBy = "idtarjetapuntos")
+    private Collection<Fidelizacion> fidelizacionCollection;
+    @OneToMany(mappedBy = "idtarjetapuntos")
+    private Collection<Cliente> clienteCollection;
+    @JoinColumn(name = "Id_estado", referencedColumnName = "Id_estado")
+    @ManyToOne
+    private Estado idestado;
 
     public TarjetaPuntos() {
     }
@@ -76,11 +86,29 @@ public class TarjetaPuntos implements Serializable {
         this.puntos = puntos;
     }
 
-    public Integer getIdestado() {
+    @XmlTransient
+    public Collection<Fidelizacion> getFidelizacionCollection() {
+        return fidelizacionCollection;
+    }
+
+    public void setFidelizacionCollection(Collection<Fidelizacion> fidelizacionCollection) {
+        this.fidelizacionCollection = fidelizacionCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cliente> getClienteCollection() {
+        return clienteCollection;
+    }
+
+    public void setClienteCollection(Collection<Cliente> clienteCollection) {
+        this.clienteCollection = clienteCollection;
+    }
+
+    public Estado getIdestado() {
         return idestado;
     }
 
-    public void setIdestado(Integer idestado) {
+    public void setIdestado(Estado idestado) {
         this.idestado = idestado;
     }
 

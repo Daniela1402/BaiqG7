@@ -7,23 +7,29 @@ package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "usuario")
@@ -34,8 +40,8 @@ public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Id_usuario")
     private Integer idusuario;
     @Size(max = 30)
@@ -73,8 +79,17 @@ public class Usuario implements Serializable {
     @Size(max = 50)
     @Column(name = "Genero")
     private String genero;
-    @Column(name = "Id_rol")
-    private Integer idrol;
+    @OneToMany(mappedBy = "idusuario")
+    private Collection<Administrador> administradorCollection;
+    @OneToMany(mappedBy = "idusuario")
+    private Collection<Vendedor> vendedorCollection;
+    @OneToMany(mappedBy = "idusuario")
+    private Collection<Cliente> clienteCollection;
+    @JoinColumn(name = "Id_rol", referencedColumnName = "Id_rol")
+    @ManyToOne
+    private Rol idrol;
+    @OneToMany(mappedBy = "idusuario")
+    private Collection<Soporte> soporteCollection;
 
     public Usuario() {
     }
@@ -187,12 +202,48 @@ public class Usuario implements Serializable {
         this.genero = genero;
     }
 
-    public Integer getIdrol() {
+    @XmlTransient
+    public Collection<Administrador> getAdministradorCollection() {
+        return administradorCollection;
+    }
+
+    public void setAdministradorCollection(Collection<Administrador> administradorCollection) {
+        this.administradorCollection = administradorCollection;
+    }
+
+    @XmlTransient
+    public Collection<Vendedor> getVendedorCollection() {
+        return vendedorCollection;
+    }
+
+    public void setVendedorCollection(Collection<Vendedor> vendedorCollection) {
+        this.vendedorCollection = vendedorCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cliente> getClienteCollection() {
+        return clienteCollection;
+    }
+
+    public void setClienteCollection(Collection<Cliente> clienteCollection) {
+        this.clienteCollection = clienteCollection;
+    }
+
+    public Rol getIdrol() {
         return idrol;
     }
 
-    public void setIdrol(Integer idrol) {
+    public void setIdrol(Rol idrol) {
         this.idrol = idrol;
+    }
+
+    @XmlTransient
+    public Collection<Soporte> getSoporteCollection() {
+        return soporteCollection;
+    }
+
+    public void setSoporteCollection(Collection<Soporte> soporteCollection) {
+        this.soporteCollection = soporteCollection;
     }
 
     @Override
@@ -218,18 +269,6 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "baiq.proyectoG7.entity.Usuario[ idusuario=" + idusuario + " ]";
-    }
-
-    public void setFechaRegistro(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public Object getNombres() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getApellidos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

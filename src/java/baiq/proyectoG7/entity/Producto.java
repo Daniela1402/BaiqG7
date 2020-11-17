@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,17 +14,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "producto")
@@ -51,11 +56,18 @@ public class Producto implements Serializable {
     @Size(max = 15)
     @Column(name = "color")
     private String color;
-    @Column(name = "Id_TipoProducto")
-    private Integer idTipoProducto;
     @Column(name = "FechaRegistro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @OneToMany(mappedBy = "idProducto")
+    private Collection<Venta> ventaCollection;
+    @JoinColumn(name = "Id_TipoProducto", referencedColumnName = "Id_TipoProducto")
+    @ManyToOne
+    private TipoProducto idTipoProducto;
+    @OneToMany(mappedBy = "idProducto")
+    private Collection<Inventario> inventarioCollection;
+    @OneToMany(mappedBy = "idproducto")
+    private Collection<DetalleOrdenPago> detalleOrdenPagoCollection;
 
     public Producto() {
     }
@@ -112,20 +124,47 @@ public class Producto implements Serializable {
         this.color = color;
     }
 
-    public Integer getIdTipoProducto() {
-        return idTipoProducto;
-    }
-
-    public void setIdTipoProducto(Integer idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
-    }
-
     public Date getFechaRegistro() {
         return fechaRegistro;
     }
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @XmlTransient
+    public Collection<Venta> getVentaCollection() {
+        return ventaCollection;
+    }
+
+    public void setVentaCollection(Collection<Venta> ventaCollection) {
+        this.ventaCollection = ventaCollection;
+    }
+
+    public TipoProducto getIdTipoProducto() {
+        return idTipoProducto;
+    }
+
+    public void setIdTipoProducto(TipoProducto idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
+    }
+
+    @XmlTransient
+    public Collection<Inventario> getInventarioCollection() {
+        return inventarioCollection;
+    }
+
+    public void setInventarioCollection(Collection<Inventario> inventarioCollection) {
+        this.inventarioCollection = inventarioCollection;
+    }
+
+    @XmlTransient
+    public Collection<DetalleOrdenPago> getDetalleOrdenPagoCollection() {
+        return detalleOrdenPagoCollection;
+    }
+
+    public void setDetalleOrdenPagoCollection(Collection<DetalleOrdenPago> detalleOrdenPagoCollection) {
+        this.detalleOrdenPagoCollection = detalleOrdenPagoCollection;
     }
 
     @Override

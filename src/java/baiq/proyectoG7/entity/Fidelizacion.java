@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "fidelizacion")
@@ -53,12 +55,15 @@ public class Fidelizacion implements Serializable {
     @Column(name = "FechaRegistro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
-    @Column(name = "Id_cliente")
-    private Integer idcliente;
-    @Column(name = "Id_vendedor")
-    private Integer idvendedor;
-    @Column(name = "Id_tarjeta_puntos")
-    private Integer idtarjetapuntos;
+    @JoinColumn(name = "Id_cliente", referencedColumnName = "Id_cliente")
+    @ManyToOne
+    private Cliente idcliente;
+    @JoinColumn(name = "Id_vendedor", referencedColumnName = "Id_Vendedor")
+    @ManyToOne
+    private Vendedor idvendedor;
+    @JoinColumn(name = "Id_tarjeta_puntos", referencedColumnName = "Id_tarjeta_puntos")
+    @ManyToOne
+    private TarjetaPuntos idtarjetapuntos;
 
     public Fidelizacion() {
     }
@@ -115,27 +120,27 @@ public class Fidelizacion implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Integer getIdcliente() {
+    public Cliente getIdcliente() {
         return idcliente;
     }
 
-    public void setIdcliente(Integer idcliente) {
+    public void setIdcliente(Cliente idcliente) {
         this.idcliente = idcliente;
     }
 
-    public Integer getIdvendedor() {
+    public Vendedor getIdvendedor() {
         return idvendedor;
     }
 
-    public void setIdvendedor(Integer idvendedor) {
+    public void setIdvendedor(Vendedor idvendedor) {
         this.idvendedor = idvendedor;
     }
 
-    public Integer getIdtarjetapuntos() {
+    public TarjetaPuntos getIdtarjetapuntos() {
         return idtarjetapuntos;
     }
 
-    public void setIdtarjetapuntos(Integer idtarjetapuntos) {
+    public void setIdtarjetapuntos(TarjetaPuntos idtarjetapuntos) {
         this.idtarjetapuntos = idtarjetapuntos;
     }
 

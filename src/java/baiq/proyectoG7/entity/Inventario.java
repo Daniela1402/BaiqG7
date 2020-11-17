@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -20,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "inventario")
@@ -35,8 +37,6 @@ public class Inventario implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_Inventario")
     private Integer idInventario;
-    @Column(name = "Id_Producto")
-    private Integer idProducto;
     @Size(max = 10)
     @Column(name = "Ubicacion")
     private String ubicacion;
@@ -46,6 +46,9 @@ public class Inventario implements Serializable {
     private Boolean estado;
     @Column(name = "PrecioUnitario")
     private Long precioUnitario;
+    @JoinColumn(name = "Id_Producto", referencedColumnName = "Id_Producto")
+    @ManyToOne
+    private Producto idProducto;
 
     public Inventario() {
     }
@@ -60,14 +63,6 @@ public class Inventario implements Serializable {
 
     public void setIdInventario(Integer idInventario) {
         this.idInventario = idInventario;
-    }
-
-    public Integer getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
     }
 
     public String getUbicacion() {
@@ -100,6 +95,14 @@ public class Inventario implements Serializable {
 
     public void setPrecioUnitario(Long precioUnitario) {
         this.precioUnitario = precioUnitario;
+    }
+
+    public Producto getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Producto idProducto) {
+        this.idProducto = idProducto;
     }
 
     @Override

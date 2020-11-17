@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,14 +16,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "encuesta")
@@ -50,6 +53,8 @@ public class Encuesta implements Serializable {
     private Integer asesoria;
     @Column(name = "VolveriaComprar")
     private Integer volveriaComprar;
+    @OneToMany(mappedBy = "idEncuesta")
+    private Collection<CalificaServicio> calificaServicioCollection;
 
     public Encuesta() {
     }
@@ -112,6 +117,15 @@ public class Encuesta implements Serializable {
 
     public void setVolveriaComprar(Integer volveriaComprar) {
         this.volveriaComprar = volveriaComprar;
+    }
+
+    @XmlTransient
+    public Collection<CalificaServicio> getCalificaServicioCollection() {
+        return calificaServicioCollection;
+    }
+
+    public void setCalificaServicioCollection(Collection<CalificaServicio> calificaServicioCollection) {
+        this.calificaServicioCollection = calificaServicioCollection;
     }
 
     @Override

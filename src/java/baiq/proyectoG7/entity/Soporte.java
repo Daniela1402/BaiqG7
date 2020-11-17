@@ -6,20 +6,25 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "soporte")
@@ -36,10 +41,14 @@ public class Soporte implements Serializable {
     private Integer idsoporte;
     @Column(name = "Sueldo")
     private Integer sueldo;
-    @Column(name = "Id_usuario")
-    private Integer idusuario;
-    @Column(name = "Id_rol")
-    private Integer idrol;
+    @OneToMany(mappedBy = "idsoporte")
+    private Collection<OrdenServicio> ordenServicioCollection;
+    @JoinColumn(name = "Id_rol", referencedColumnName = "Id_rol")
+    @ManyToOne
+    private Rol idrol;
+    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
+    @ManyToOne
+    private Usuario idusuario;
 
     public Soporte() {
     }
@@ -64,20 +73,29 @@ public class Soporte implements Serializable {
         this.sueldo = sueldo;
     }
 
-    public Integer getIdusuario() {
-        return idusuario;
+    @XmlTransient
+    public Collection<OrdenServicio> getOrdenServicioCollection() {
+        return ordenServicioCollection;
     }
 
-    public void setIdusuario(Integer idusuario) {
-        this.idusuario = idusuario;
+    public void setOrdenServicioCollection(Collection<OrdenServicio> ordenServicioCollection) {
+        this.ordenServicioCollection = ordenServicioCollection;
     }
 
-    public Integer getIdrol() {
+    public Rol getIdrol() {
         return idrol;
     }
 
-    public void setIdrol(Integer idrol) {
+    public void setIdrol(Rol idrol) {
         this.idrol = idrol;
+    }
+
+    public Usuario getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(Usuario idusuario) {
+        this.idusuario = idusuario;
     }
 
     @Override

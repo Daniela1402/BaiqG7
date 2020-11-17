@@ -34,7 +34,7 @@ public class RegistroUsuarioRequest implements Serializable {
     public void crearUsuario() {
         String mensajeSw = "";
         try {
-            usReg.setFechaRegistro(new Date());
+            usReg.setFechaNacimiento(new Date());
             usuarioFacadeLocal.create(usReg);
             mensajeSw = "swal('Usuario registrado' , ' con exito ', 'success')";
         } catch (Exception e) {
@@ -49,12 +49,12 @@ public class RegistroUsuarioRequest implements Serializable {
         String mensajeSw = "";
         try {
             usuRecuperar = usuarioFacadeLocal.recuperarClave(correoRecuperar);
-            if (usuRecuperar.getNombres() == null) {
+            if (usuRecuperar.getPrimerNombre()== null) {
                 mensajeSw = "swal('El correo' , ' No se encuentra registrado  ', 'error')";
             } else {
 
                 Email.sendClaves(usuRecuperar.getCorreoElectronico(),
-                        usuRecuperar.getNombres() + " " + usuRecuperar.getApellidos(),
+                        usuRecuperar.getPrimerNombre()+ " " + usuRecuperar.getPrimerApellido(),
                         usuRecuperar.getCorreoElectronico(),
                         usuRecuperar.getPassword());
 

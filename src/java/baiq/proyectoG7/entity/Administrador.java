@@ -6,21 +6,26 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "administrador")
@@ -38,8 +43,11 @@ public class Administrador implements Serializable {
     @Size(max = 30)
     @Column(name = "Credenciales")
     private String credenciales;
-    @Column(name = "Id_usuario")
-    private Integer idusuario;
+    @JoinColumn(name = "Id_usuario", referencedColumnName = "Id_usuario")
+    @ManyToOne
+    private Usuario idusuario;
+    @OneToMany(mappedBy = "idAdmin")
+    private Collection<CalificaServicio> calificaServicioCollection;
 
     public Administrador() {
     }
@@ -64,12 +72,21 @@ public class Administrador implements Serializable {
         this.credenciales = credenciales;
     }
 
-    public Integer getIdusuario() {
+    public Usuario getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(Integer idusuario) {
+    public void setIdusuario(Usuario idusuario) {
         this.idusuario = idusuario;
+    }
+
+    @XmlTransient
+    public Collection<CalificaServicio> getCalificaServicioCollection() {
+        return calificaServicioCollection;
+    }
+
+    public void setCalificaServicioCollection(Collection<CalificaServicio> calificaServicioCollection) {
+        this.calificaServicioCollection = calificaServicioCollection;
     }
 
     @Override

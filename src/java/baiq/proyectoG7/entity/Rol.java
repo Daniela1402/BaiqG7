@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "rol")
@@ -38,6 +41,10 @@ public class Rol implements Serializable {
     @Size(max = 20)
     @Column(name = "Nombre")
     private String nombre;
+    @OneToMany(mappedBy = "idrol")
+    private Collection<Usuario> usuarioCollection;
+    @OneToMany(mappedBy = "idrol")
+    private Collection<Soporte> soporteCollection;
 
     public Rol() {
     }
@@ -60,6 +67,24 @@ public class Rol implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @XmlTransient
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
+    }
+
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Soporte> getSoporteCollection() {
+        return soporteCollection;
+    }
+
+    public void setSoporteCollection(Collection<Soporte> soporteCollection) {
+        this.soporteCollection = soporteCollection;
     }
 
     @Override

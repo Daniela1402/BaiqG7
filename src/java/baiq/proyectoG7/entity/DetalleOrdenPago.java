@@ -6,6 +6,7 @@
 package baiq.proyectoG7.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -13,17 +14,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Daniela
+ * @author dairo
  */
 @Entity
 @Table(name = "detalle_orden_pago")
@@ -38,16 +43,12 @@ public class DetalleOrdenPago implements Serializable {
     @Basic(optional = false)
     @Column(name = "Id_detalleOrdenPago")
     private Integer iddetalleOrdenPago;
-    @Column(name = "Id_producto")
-    private Integer idproducto;
     @Column(name = "Subtotal")
     private Long subtotal;
     @Column(name = "IVA")
     private Long iva;
     @Column(name = "Total")
     private Long total;
-    @Column(name = "Id_OrdenPago")
-    private Integer idOrdenPago;
     @Column(name = "cantidad")
     private Integer cantidad;
     @Column(name = "Id_cliente")
@@ -58,6 +59,14 @@ public class DetalleOrdenPago implements Serializable {
     @Column(name = "FechaRegistro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
+    @OneToMany(mappedBy = "iddetalleOrdenPago")
+    private Collection<CalificaServicio> calificaServicioCollection;
+    @JoinColumn(name = "Id_OrdenPago", referencedColumnName = "Id_OrdenPago")
+    @ManyToOne
+    private OrdenPago idOrdenPago;
+    @JoinColumn(name = "Id_producto", referencedColumnName = "Id_Producto")
+    @ManyToOne
+    private Producto idproducto;
 
     public DetalleOrdenPago() {
     }
@@ -72,14 +81,6 @@ public class DetalleOrdenPago implements Serializable {
 
     public void setIddetalleOrdenPago(Integer iddetalleOrdenPago) {
         this.iddetalleOrdenPago = iddetalleOrdenPago;
-    }
-
-    public Integer getIdproducto() {
-        return idproducto;
-    }
-
-    public void setIdproducto(Integer idproducto) {
-        this.idproducto = idproducto;
     }
 
     public Long getSubtotal() {
@@ -104,14 +105,6 @@ public class DetalleOrdenPago implements Serializable {
 
     public void setTotal(Long total) {
         this.total = total;
-    }
-
-    public Integer getIdOrdenPago() {
-        return idOrdenPago;
-    }
-
-    public void setIdOrdenPago(Integer idOrdenPago) {
-        this.idOrdenPago = idOrdenPago;
     }
 
     public Integer getCantidad() {
@@ -144,6 +137,31 @@ public class DetalleOrdenPago implements Serializable {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @XmlTransient
+    public Collection<CalificaServicio> getCalificaServicioCollection() {
+        return calificaServicioCollection;
+    }
+
+    public void setCalificaServicioCollection(Collection<CalificaServicio> calificaServicioCollection) {
+        this.calificaServicioCollection = calificaServicioCollection;
+    }
+
+    public OrdenPago getIdOrdenPago() {
+        return idOrdenPago;
+    }
+
+    public void setIdOrdenPago(OrdenPago idOrdenPago) {
+        this.idOrdenPago = idOrdenPago;
+    }
+
+    public Producto getIdproducto() {
+        return idproducto;
+    }
+
+    public void setIdproducto(Producto idproducto) {
+        this.idproducto = idproducto;
     }
 
     @Override
